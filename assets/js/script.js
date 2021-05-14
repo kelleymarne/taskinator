@@ -45,8 +45,6 @@ var taskFormHandler = function (event) {
 };
 
 var createTaskEl = function(taskDataObj) {
-    console.log(taskDataObj);
-    console.log(taskDataObj.status);
     //create list item
     var listItemEl = document.createElement('li');
     listItemEl.className = 'task-item'; // connects the styling from CSS
@@ -79,6 +77,8 @@ var createTaskEl = function(taskDataObj) {
 
     //increase task counter for next unique id
     taskIdCounter++;
+
+    saveTasks();
 }
 
 var createTaskActions = function(taskId) {
@@ -139,6 +139,7 @@ var completeEditTask = function(taskName, taskType, taskId) {
     alert("Task Updated!");
     formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
+    saveTasks();
 };
 
 var taskButtonHandler = function(event) {
@@ -184,7 +185,7 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
-    console.log(tasks);
+    saveTasks();
 };
 
 //delete task function
@@ -204,6 +205,7 @@ var deleteTask = function(taskId) {
     }
     //reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+    saveTasks();
 }
 
 //edit task funtion
@@ -220,6 +222,9 @@ var editTask = function(taskId) {
 
 }
 
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 //create a new task
 formEl.addEventListener('submit', taskFormHandler);
 //edit and delete buttons
